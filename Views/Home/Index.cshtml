@@ -1,0 +1,192 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div id="carouselExampleIndicators" class="carousel slide wd-100vh" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/images/Dashboard/First.jpeg" class="d-block w-100 h-50 object-fit-cover" alt="">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/Dashboard/Second.jpg" class="d-block w-100 h-50 object-fit-cover" alt="">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/Dashboard/Third.jpg" class="d-block w-100 h-50 object-fit-cover" alt="">
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+@*
+<div class="hero">
+    <h1>Explore the World With Us</h1>
+    <p>Discover destinations, book amazing tours, and travel smart!</p>
+
+    <div class="mt-4">
+        <a class="btn-main" href="/TourPackage">View Travel Packages</a>
+        <a class="btn-main" href="/Booking">Manage Bookings</a>
+        <a class="btn-main" href="/TravelAgency">Agency Dashboard</a>
+        <a class="btn-main" href="/Feedback">Feedback</a>
+    </div>
+
+    <!-- ✨ Add Features directly INSIDE hero -->
+    <section class="feature-section">
+        <h2 class="section-heading">✨ Features Coming Soon</h2>
+        <ul class="feature-list">
+            <li>Top-rated destinations</li>
+            <li>Live booking availability</li>
+            <li>User profiles and saved trips</li>
+        </ul>
+    </section>
+</div>
+
+ *@
+
+<!-- 👨‍💻 Project Group Details below the hero -->
+@* <section class="project-details">
+    <h2 class="section-heading">👨‍💻 Project Group Details</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Student ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Ronish Shrestha</td><td>12345678</td></tr>
+            <tr><td>John Smith</td><td>87654321</td></tr>
+            <tr><td>Jane Doe</td><td>23456789</td></tr>
+        </tbody>
+    </table>
+</section> *@
+<br />
+<br />
+<br />
+<br />
+
+<div class="container mt-5 mb-5">
+
+    <div class="row g-2">
+        <div class="col-md-4">
+            <div class="card p-3 text-center px-4">
+
+                <div class="user-image">
+
+                    <img src="https://i.imgur.com/PKHvlRS.jpg" class="rounded-circle" width="80">
+
+                </div>
+
+                <div class="user-content">
+
+                    <h5 class="mb-0">Ronish Shrestha</h5>
+                    <span>Student</span>
+                    <p>Student Id : 12345678</p>
+
+                </div>
+
+                <div class="ratings">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card p-3 text-center px-4">
+
+                <div class="user-image">
+
+                    <img src="https://i.imgur.com/w2CKRB9.jpg" class="rounded-circle" width="80">
+
+                </div>
+
+                <div class="user-content">
+
+                    <h5 class="mb-0">Mark Smith</h5>
+                    <span>Student</span>
+                    <p>Student Id : 87654321</p>
+
+                </div>
+
+                <div class="ratings">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card p-3 text-center px-4">
+
+                <div class="user-image">
+
+                    <img src="https://i.imgur.com/ACeArwY.jpg" class="rounded-circle" width="80">
+
+                </div>
+
+                <div class="user-content">
+
+                    <h5 class="mb-0">Veera  Duncan</h5>
+                    <span>Student</span>
+                    <p>Student Id : 23456789</p>
+
+                </div>
+
+                <div class="ratings">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+@section Style {
+    <style>
+        .card {
+            border: none;
+        }
+
+        .user-content p {
+            margin-top: 5px;
+            font-size: 12px;
+        }
+
+
+        .ratings i {
+            color: blue;
+        }
+    </style>
+}
