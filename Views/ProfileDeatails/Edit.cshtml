@@ -1,0 +1,35 @@
+﻿@model Travel_and_Tourism.Models.RegisteredUser
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<h2>Edit Profile</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="FirstName">First Name</label>
+        <input type="text" class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Lastname">Last Name</label>
+        <input type="text" class="form-control" id="Lastname" name="Lastname" value="@Model.Lastname" required />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required />
+    </div>
+
+    <div class="form-group">
+        <label for="ProfilePicture">Profile Picture</label>
+        <input type="file" class="form-control" id="ProfilePicture" name="ProfilePicture" />
+    </div>
+
+    <div class="form-group">
+        <img src="@Model.ProfilePicturePath" alt="Profile Picture" width="100" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
