@@ -28,53 +28,61 @@ public class TouristRegisterController : Controller
     [HttpPost]
     public async Task<IActionResult> Index(RegistrationViewModel model)
     {
-        if (ModelState.IsValid)
+        try
         {
-            string filePath = null;
-
-            if (model.ProfilePicture != null && model.ProfilePicture.Length > 0)
+            if (ModelState.IsValid)
             {
-                string fileName = Path.GetFileName(model.ProfilePicture.FileName);
+                string filePath = null;
 
-                // Save to wwwroot/UploadedImages
-                string uploadFolder = Path.Combine(_hostingEnvironment.WebRootPath, "UploadedImages");
-
-                // Create folder if it doesn't exist
-                if (!Directory.Exists(uploadFolder))
+                if (model.ProfilePicture != null && model.ProfilePicture.Length > 0)
                 {
-                    Directory.CreateDirectory(uploadFolder);
+                    string fileName = Path.GetFileName(model.ProfilePicture.FileName);
+
+                    // Save to wwwroot/UploadedImages
+                    string uploadFolder = Path.Combine(_hostingEnvironment.WebRootPath, "UploadedImages");
+
+                    // Create folder if it doesn't exist
+                    if (!Directory.Exists(uploadFolder))
+                    {
+                        Directory.CreateDirectory(uploadFolder);
+                    }
+
+                    string fullPath = Path.Combine(uploadFolder, fileName);
+
+                    // Save the file
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        await model.ProfilePicture.CopyToAsync(stream);
+                    }
+
+                    // Store relative path (for later retrieval/display)
+                    filePath = "/UploadedImages/" + fileName;
                 }
 
-                string fullPath = Path.Combine(uploadFolder, fileName);
-
-                // Save the file
-                using (var stream = new FileStream(fullPath, FileMode.Create))
+                var user = new RegisteredUser
                 {
-                    await model.ProfilePicture.CopyToAsync(stream);
-                }
+                    FirstName = model.FirstName,
+                    Lastname = model.LastName,
+                    Email = model.Email,
+                    Password = model.Password,
+                    ConfirmPassword = model.ConfirmPassword,
+                    ProfilePicturePath = filePath
+                };
 
-                // Store relative path (for later retrieval/display)
-                filePath = "/UploadedImages/" + fileName;
+
+                _context.RegisteredUsers.Add(user);
+                _context.SaveChanges();
+
+
+                return RedirectToAction("Index");
             }
 
-            var user = new RegisteredUser
-            {
-                FirstName = model.FirstName,
-                Lastname = model.LastName,
-                Email = model.Email,
-                Password = model.Password,
-                ConfirmPassword = model.ConfirmPassword,
-                ProfilePicturePath = filePath
-            };
-
-
-            _context.RegisteredUsers.Add(user);
-            _context.SaveChanges();
-
-
-            return RedirectToAction("Index");
+            return View(model);
         }
-
-        return View(model);
+        catch (Exception ex)
+        {
+            throw;
+        }
+        
     }
 }

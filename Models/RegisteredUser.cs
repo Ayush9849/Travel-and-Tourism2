@@ -22,11 +22,11 @@ namespace Travel_and_Tourism.Models
         public string Email { get; set; }
 
         // Password fields are excluded from DB binding during edit
-        [NotMapped]
+        //[NotMapped]
         [DataType(DataType.Password)]
         public string? Password { get; set; }
 
-        [NotMapped]
+        //[NotMapped]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Passwords do not match.")]
         public string? ConfirmPassword { get; set; }
