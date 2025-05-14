@@ -1,14 +1,14 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Travel and Tourism</title>
 
-    <head>
-        @* <link rel="stylesheet" href="~/Content/site.css" /> *@
-        <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
-        <script src="~/Script/bootstrap.min.js"></script>
-        <style>
-            @RenderSection("Style", false)
-        </style>
-    </head>
-        
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    @RenderSection("Style", required: false)
+</head>
+
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid">
@@ -25,12 +25,11 @@
                         <a class="nav-link" href="/TourPackages/Create">Packages</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Bookings/Create" tabindex="-1" aria-disabled="true">Booking</a>
+                        <a class="nav-link" href="/Bookings/Create">Booking</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Feedbacks/Create" tabindex="-1" aria-disabled="true">Feedback</a>
+                        <a class="nav-link" href="/Feedbacks/Create">Feedback</a>
                     </li>
-                    <!-- Add Profile link here -->
                     <li class="nav-item">
                         <a class="nav-link" href="/Profile/Details">Profile</a>
                     </li>
@@ -44,19 +43,15 @@
         </div>
     </nav>
 
-
-    <div class="main-content">
+    <main role="main" class="container my-4">
         @RenderBody()
-    </div>
+    </main>
 
     <footer class="footer text-center mt-auto py-3 bg-light">
         © 2025 Tourism Platform
     </footer>
 
-    <script>
-            @RenderSection("Scipt", false);
-    </script>
-
+    <script src="~/Script/bootstrap.min.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
-

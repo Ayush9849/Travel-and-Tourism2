@@ -1,0 +1,46 @@
+﻿@model Travel_and_Tourism.Models.RegisteredUser
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<h2>Edit Profile</h2>
+
+<form asp-action="Edit" enctype="multipart/form-data" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="UserId" />
+
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Lastname"></label>
+        <input asp-for="Lastname" class="form-control" />
+        <span asp-validation-for="Lastname" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Upload Profile Picture</label>
+        <input asp-for="ProfilePicture" type="file" class="form-control-file" />
+        <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+
+        @if (!string.IsNullOrEmpty(Model.ProfilePicturePath))
+        {
+            <p>Current Picture:</p>
+            <img src="@Model.ProfilePicturePath" width="100" height="100" />
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-action="Details" class="btn btn-secondary">Cancel</a>
+</form>

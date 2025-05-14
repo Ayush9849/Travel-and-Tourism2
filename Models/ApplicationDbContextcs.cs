@@ -16,6 +16,8 @@ namespace Travel_and_Tourism.Models
         public DbSet<TourPackage> TourPackages { get; set; }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
+ 
         public DbSet<RegisteredUser> RegisteredUsers { get; set; }
+
     }
 }

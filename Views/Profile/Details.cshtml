@@ -1,0 +1,24 @@
+﻿@model Travel_and_Tourism.Models.RegisteredUser
+
+@{
+    ViewData["Title"] = "Profile Details";
+}
+
+<h2>Profile Details</h2>
+
+<div class="card" style="width: 18rem;">
+    @if (!string.IsNullOrEmpty(Model.ProfilePicturePath))
+    {
+        <img src="@Model.ProfilePicturePath" class="card-img-top" alt="Profile Picture" />
+    }
+    else
+    {
+        <img src="/images/default-avatar.png" class="card-img-top" alt="Default Picture" />
+    }
+
+    <div class="card-body">
+        <h5 class="card-title">@Model.FirstName @Model.Lastname</h5>
+        <p class="card-text">Email: @Model.Email</p>
+        <a asp-action="Edit" class="btn btn-primary">Edit Profile</a>
+    </div>
+</div>
