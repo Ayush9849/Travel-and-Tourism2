@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Travel_and_Tourism.Models;
+using Microsoft.AspNetCore.Http; // for IFormFile
 
 namespace Travel_and_Tourism.Models
 {
@@ -26,14 +24,18 @@ namespace Travel_and_Tourism.Models
         [Range(0, 10000)]
         public decimal Price { get; set; }
 
-        public int Duration { get; set; } // In days
+        public string Duration { get; set; }
+
 
         public string AvailableDates { get; set; }
 
         public int MaxGroupSize { get; set; }
 
-        public string ImageUrl { get; set; }
+        public byte[] ImageUrl { get; set; }  // Properly closed property
 
-        //public ICollection<Booking> Bookings { get; set; }
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }  // Separate property, not mapped to DB
+
+        
     }
 }

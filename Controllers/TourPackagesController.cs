@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Travel_and_Tourism.Models;
 
 namespace Travel_and_Tourism.Controllers
@@ -18,129 +18,122 @@ namespace Travel_and_Tourism.Controllers
             _context = context;
         }
 
-        // GET: TourPackages
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.TourPackages.Include(t => t.TravelAgency);
-            return View(await applicationDbContext.ToListAsync());
+            var tourPackages = _context.TourPackages.Include(t => t.TravelAgency);
+            return View(await tourPackages.ToListAsync());
         }
 
-        // GET: TourPackages/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var tourPackage = await _context.TourPackages
                 .Include(t => t.TravelAgency)
                 .FirstOrDefaultAsync(m => m.TourId == id);
-            if (tourPackage == null)
-            {
-                return NotFound();
-            }
+
+            if (tourPackage == null) return NotFound();
 
             return View(tourPackage);
         }
 
-        // GET: TourPackages/Create
         public IActionResult Create()
         {
             ViewData["AgencyId"] = new SelectList(_context.TravelAgencies, "AgencyId", "AgencyName");
             return View();
         }
 
-        // POST: TourPackages/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TourId,AgencyId,Title,Description,Price,Duration,AvailableDates,MaxGroupSize,ImageUrl")] TourPackage tourPackage)
+        public async Task<IActionResult> Create(TourPackage tourPackage)
         {
             if (ModelState.IsValid)
             {
+                if (tourPackage.ImageFile != null && tourPackage.ImageFile.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await tourPackage.ImageFile.CopyToAsync(memoryStream);
+                        tourPackage.ImageUrl = memoryStream.ToArray();
+                    }
+                }
+
                 _context.Add(tourPackage);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["AgencyId"] = new SelectList(_context.TravelAgencies, "AgencyId", "AgencyName", tourPackage.AgencyId);
             return View(tourPackage);
         }
 
-        // GET: TourPackages/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var tourPackage = await _context.TourPackages.FindAsync(id);
-            if (tourPackage == null)
-            {
-                return NotFound();
-            }
+            if (tourPackage == null) return NotFound();
+
             ViewData["AgencyId"] = new SelectList(_context.TravelAgencies, "AgencyId", "AgencyName", tourPackage.AgencyId);
             return View(tourPackage);
         }
 
-        // POST: TourPackages/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TourId,AgencyId,Title,Description,Price,Duration,AvailableDates,MaxGroupSize,ImageUrl")] TourPackage tourPackage)
+        public async Task<IActionResult> Edit(int id, TourPackage tourPackage)
         {
-            if (id != tourPackage.TourId)
-            {
-                return NotFound();
-            }
+            if (id != tourPackage.TourId) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var existing = await _context.TourPackages.AsNoTracking().FirstOrDefaultAsync(t => t.TourId == id);
+
+                    if (tourPackage.ImageFile != null && tourPackage.ImageFile.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await tourPackage.ImageFile.CopyToAsync(memoryStream);
+                            tourPackage.ImageUrl = memoryStream.ToArray();
+                        }
+                    }
+                    else
+                    {
+                        tourPackage.ImageUrl = existing?.ImageUrl;
+                    }
+
                     _context.Update(tourPackage);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!TourPackageExists(tourPackage.TourId))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["AgencyId"] = new SelectList(_context.TravelAgencies, "AgencyId", "AgencyName", tourPackage.AgencyId);
             return View(tourPackage);
         }
 
-        // GET: TourPackages/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var tourPackage = await _context.TourPackages
                 .Include(t => t.TravelAgency)
                 .FirstOrDefaultAsync(m => m.TourId == id);
-            if (tourPackage == null)
-            {
-                return NotFound();
-            }
+
+            if (tourPackage == null) return NotFound();
 
             return View(tourPackage);
         }
 
-        // POST: TourPackages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -149,9 +142,8 @@ namespace Travel_and_Tourism.Controllers
             if (tourPackage != null)
             {
                 _context.TourPackages.Remove(tourPackage);
+                await _context.SaveChangesAsync();
             }
-
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
